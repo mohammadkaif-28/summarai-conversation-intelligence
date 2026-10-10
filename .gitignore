@@ -1,0 +1,37 @@
+
+# Python virtual environments
+backend/venv/
+backend/venv_old/
+venv/
+venv_old/
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+backend/.env
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+
+# Frontend dependencies and build output
+frontend/node_modules/
+frontend/dist/
+
+# Trained model
+# Keep ignored only if the model will be downloaded separately
+backend/saved_model/
+
+# Editor files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
