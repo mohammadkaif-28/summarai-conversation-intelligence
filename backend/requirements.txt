@@ -1,7 +1,11 @@
-fastapi>=0.110
+
+fastapi>=0.110,<1.0
 uvicorn[standard]>=0.27
-pydantic>=2.5
-transformers>=4.38
+pydantic>=2.5,<3.0
+transformers>=4.38,<5.0
+--extra-index-url https://download.pytorch.org/whl/cpu
 torch>=2.1
 sentencepiece>=0.1.99
 protobuf>=4.25
+python-dotenv>=1.0.0
+google-genai>=1.0.0

@@ -33,27 +33,39 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ==========================================
-# 1. Load Trained T5 Model (Phase 1)
-# ==========================================
-# Matched directly to your folder: backend/saved_model
-MODEL_PATH = os.path.join(os.path.dirname(__file__), "backend", "saved_model")
 
-# Fallback check if running from inside backend/
-if not os.path.exists(MODEL_PATH):
-    MODEL_PATH = os.path.join(os.path.dirname(__file__), "saved_model")
+# ==========================================
+# 1. Load Fine-tuned T5 Model
+# ==========================================
+
+MODEL_PATH = os.getenv(
+    "MODEL_NAME",
+    "KaifAIML/summarAI-t5"
+)
+
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 try:
     tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
-    t5_model = AutoModelForSeq2SeqLM.from_pretrained(MODEL_PATH).to(device)
+
+    t5_model = AutoModelForSeq2SeqLM.from_pretrained(
+        MODEL_PATH
+    ).to(device)
+
     t5_model.eval()
-    print(f"[INFO] Loaded fine-tuned T5 model from '{MODEL_PATH}' on {device.upper()}.")
+
+    print(
+        f"[INFO] Loaded fine-tuned T5 model "
+        f"from '{MODEL_PATH}' on {device.upper()}."
+    )
+
 except Exception as e:
     print(f"[ERROR] Could not load model from '{MODEL_PATH}': {e}")
-    tokenizer = None
-    t5_model = None
+    raise RuntimeError(
+        f"Failed to load T5 model from '{MODEL_PATH}'"
+    ) from e
+
 
 
 def generate_t5_summary(conversation_text: str) -> str:
